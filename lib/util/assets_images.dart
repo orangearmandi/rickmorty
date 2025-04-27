@@ -1,1 +1,1 @@
-final String portalgif = 'assets/images/portal.gif';
+String get portalgif => 'assets/images/portal.gif';

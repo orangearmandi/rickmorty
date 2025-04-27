@@ -11,11 +11,27 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final scrollController = ScrollController();
+  bool isLoading = false;
+  int page = 1;
   @override
   void initState() {
     super.initState();
     final apiProvider = Provider.of<ApiProvider>(context, listen: false);
-    apiProvider.getCharacters();
+    apiProvider.getCharacters(page: page);
+    scrollController.addListener(() {
+      if (scrollController.position.pixels ==
+          scrollController.position.maxScrollExtent) {
+        setState(() {
+          isLoading = true;
+        });
+        apiProvider.getCharacters(page: page);
+        page++;
+        setState(() {
+          isLoading = false;
+        });
+      }
+    });
   }
 
   @override
@@ -23,22 +39,35 @@ class _HomeScreenState extends State<HomeScreen> {
     final apiProvider = Provider.of<ApiProvider>(context);
     return Scaffold(
       appBar: AppBar(title: const Text("Rick and Morty")),
-      //    body: Center(child: ElevatedButton(onPressed:(){context.go('/character');} , child: Text('go to character')),),
+      //    body: Center(child: ElevatedButton(onPres|sed:(){context.go('/character');} , child: Text('go to character')),),
       body: SizedBox(
         width: double.infinity,
         height: double.infinity,
         child:
             !apiProvider.character.isNotEmpty
                 ? Center(child: CircularProgressIndicator())
-                : Center(child: CharacterList()),
+                : Center(
+                  child: CharacterList(
+                    apiProvider: apiProvider,
+                    scrollController: scrollController,
+                    isLoading: isLoading,
+                  ),
+                ),
       ),
     );
   }
 }
 
 class CharacterList extends StatelessWidget {
-  const CharacterList({super.key, this.apiProvider});
+  const CharacterList({
+    super.key,
+    required this.apiProvider,
+    required this.scrollController,
+    required this.isLoading,
+  });
   final ApiProvider? apiProvider; // Optional: Pass the provider as a parameter
+  final ScrollController scrollController;
+  final bool isLoading;
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
@@ -48,26 +77,34 @@ class CharacterList extends StatelessWidget {
         crossAxisSpacing: 10,
         mainAxisSpacing: 10,
       ),
-      itemCount: context.read<ApiProvider>().character.length,
+      itemCount:
+          isLoading
+              ? context.read<ApiProvider>().character.length + 2
+              : context.read<ApiProvider>().character.length,
+      controller: scrollController,
       itemBuilder: (context, index) {
-        final character = context.read<ApiProvider>().character[index];
-        return GestureDetector(
-          onTap: () {
-            context.go('/character/');
-          },
-          child: Card(
-            child: Column(
-              children: [
-                FadeInImage(
-                  placeholder: AssetImage(portalgif),
-                  image: NetworkImage(character.image as String),
-                ),
+        if (index < context.read<ApiProvider>().character.length) {
+          final character = context.read<ApiProvider>().character[index];
+          return GestureDetector(
+            onTap: () {
+              context.go('/character/');
+            },
+            child: Card(
+              child: Column(
+                children: [
+                  FadeInImage(
+                    placeholder: AssetImage(portalgif),
+                    image: NetworkImage(character.image as String),
+                  ),
 
-                Text(character.name as String),
-              ],
+                  Text(character.name as String),
+                ],
+              ),
             ),
-          ),
-        );
+          );
+        } else {
+          return const Center(child: CircularProgressIndicator());
+        }
       },
     );
   }

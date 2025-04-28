@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:rickmorty/models/character_model.dart';
 import 'package:rickmorty/providers/api_provider.dart';
 import 'package:rickmorty/screens/character_screen.dart';
 import 'package:rickmorty/screens/home_screen.dart';
@@ -20,7 +21,8 @@ final GoRouter _goRouter = GoRouter(
         GoRoute(
           path: '/character',
           builder: (context, state) {
-            return const CharacterScreen();
+            final character = state.extra as Character;
+            return CharacterScreen(character: character);
           },
         ),
       ],

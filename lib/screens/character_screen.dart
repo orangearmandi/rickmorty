@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:rickmorty/models/character_model.dart';
+import 'package:rickmorty/providers/api_provider.dart';
 
 class CharacterScreen extends StatelessWidget {
   final Character character;
@@ -7,8 +9,9 @@ class CharacterScreen extends StatelessWidget {
   const CharacterScreen({super.key, required this.character});
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(title: const Text("prueba")),
+      appBar: AppBar(title: Text(character.name!)),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -44,8 +47,10 @@ class CharacterScreen extends StatelessWidget {
                 children: [
                   cardData(character.species!, "Species"),
                   cardData(character.gender!, "gender"),
+                  cardData(character.origin!.name!, "Origin Universe"),
                 ],
               ),
+              EpisodeList(character: character, size: size),
             ],
           ),
         ],
@@ -73,6 +78,44 @@ class CharacterScreen extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class EpisodeList extends StatefulWidget {
+  final Character character;
+  final Size size;
+  const EpisodeList({super.key, required this.character, required this.size});
+  @override
+  State<EpisodeList> createState() => _EpisodeListState();
+}
+
+class _EpisodeListState extends State<EpisodeList> {
+  @override
+  void initState() {
+    final apiProvider = Provider.of<ApiProvider>(context, listen: false);
+    apiProvider.getEpisodes(widget.character);
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final apiProvider = Provider.of<ApiProvider>(context);
+    return SizedBox(
+      height: widget.size.height * 0.3,
+      child: ListView.builder(
+        itemCount: apiProvider.episode.length,
+        itemBuilder: (context, index) {
+          final episode = apiProvider.episode[index];
+          return Card(
+            child: ListTile(
+              title: Text(episode.name!),
+              subtitle: Text(episode.airDate!),
+              trailing: Text(episode.episode!),
+            ),
+          );
+        },
       ),
     );
   }

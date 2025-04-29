@@ -1,14 +1,14 @@
 // To parse this JSON data, do
 //
-//     final welcome = welcomeFromJson(jsonString);
+//     final Episode = EpisodeFromJson(jsonString);
 
 import 'dart:convert';
 
-Welcome welcomeFromJson(String str) => Welcome.fromJson(json.decode(str));
+Episode EpisodeFromJson(String str) => Episode.fromJson(json.decode(str));
 
-String welcomeToJson(Welcome data) => json.encode(data.toJson());
+String EpisodeToJson(Episode data) => json.encode(data.toJson());
 
-class Welcome {
+class Episode {
   int? id;
   String? name;
   String? airDate;
@@ -17,7 +17,7 @@ class Welcome {
   String? url;
   DateTime? created;
 
-  Welcome({
+  Episode({
     this.id,
     this.name,
     this.airDate,
@@ -27,12 +27,15 @@ class Welcome {
     this.created,
   });
 
-  factory Welcome.fromJson(Map<String, dynamic> json) => Welcome(
+  factory Episode.fromJson(Map<String, dynamic> json) => Episode(
     id: json["id"],
     name: json["name"],
     airDate: json["air_date"],
     episode: json["episode"],
-    characters: json["characters"] == null ? [] : List<String>.from(json["characters"]!.map((x) => x)),
+    characters:
+        json["characters"] == null
+            ? []
+            : List<String>.from(json["characters"]!.map((x) => x)),
     url: json["url"],
     created: json["created"] == null ? null : DateTime.parse(json["created"]),
   );
@@ -42,7 +45,8 @@ class Welcome {
     "name": name,
     "air_date": airDate,
     "episode": episode,
-    "characters": characters == null ? [] : List<dynamic>.from(characters!.map((x) => x)),
+    "characters":
+        characters == null ? [] : List<dynamic>.from(characters!.map((x) => x)),
     "url": url,
     "created": created?.toIso8601String(),
   };

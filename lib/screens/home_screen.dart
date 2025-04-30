@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:rickmorty/providers/api_provider.dart';
 import 'package:rickmorty/util/assets_images.dart';
+import 'package:rickmorty/widgets/search_delegate.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -38,7 +39,18 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final apiProvider = Provider.of<ApiProvider>(context);
     return Scaffold(
-      appBar: AppBar(title: const Text("Rick and Morty")),
+      appBar: AppBar(
+        title: const Text("Rick and Morty"),
+        actions: [
+          IconButton(
+            onPressed: () {
+              showSearch(context: context, delegate: SearchCharacter());
+            },
+            icon: Icon(Icons.search),
+          ),
+        ],
+      ),
+
       //    body: Center(child: ElevatedButton(onPres|sed:(){context.go('/character');} , child: Text('go to character')),),
       body: SizedBox(
         width: double.infinity,

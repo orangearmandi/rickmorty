@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
       create: (context) => ApiProvider(),
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
+        title: 'Rick and Morty',
         theme: ThemeData(brightness: Brightness.dark, useMaterial3: true),
         routerConfig: _goRouter,
       ),

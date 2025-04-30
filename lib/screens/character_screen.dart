@@ -12,48 +12,54 @@ class CharacterScreen extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(title: Text(character.name!)),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Column(
-            children: [
-              CircleAvatar(
-                radius: 100,
-                backgroundImage: NetworkImage(character.image!),
-              ),
-              const SizedBox(height: 20),
-              Text(
-                character.name!,
-                style: const TextStyle(
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold,
+      body: Expanded(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Column(
+              children: [
+                CircleAvatar(
+                  radius: 100,
+                  backgroundImage: NetworkImage(character.image!),
                 ),
-              ),
-              const SizedBox(height: 10),
-              Text(
-                character.status!,
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w400,
+                const SizedBox(height: 20),
+                Text(
+                  character.name!,
+                  style: const TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 10),
-          Column(
-            children: [
-              Row(
+                const SizedBox(height: 10),
+                Text(
+                  character.status!,
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
+
+            SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Column(
                 children: [
-                  cardData(character.species!, "Species"),
-                  cardData(character.gender!, "gender"),
-                  cardData(character.origin!.name!, "Origin Universe"),
+                  Row(
+                    children: [
+                      cardData(character.species!, "Species"),
+                      cardData(character.gender!, "gender"),
+                      cardData(character.origin!.name!, "Origin Universe"),
+                    ],
+                  ),
+                  EpisodeList(character: character as Character, size: size),
                 ],
               ),
-              EpisodeList(character: character, size: size),
-            ],
-          ),
-        ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -103,7 +109,7 @@ class _EpisodeListState extends State<EpisodeList> {
   Widget build(BuildContext context) {
     final apiProvider = Provider.of<ApiProvider>(context);
     return SizedBox(
-      height: widget.size.height * 0.3,
+      height: widget.size.height * 0.4,
       child: ListView.builder(
         itemCount: apiProvider.episode.length,
         itemBuilder: (context, index) {

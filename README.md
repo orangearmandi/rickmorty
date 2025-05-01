@@ -1,16 +1,59 @@
 # rickmorty
 
-rickmorty
+Proyecto para consumir la API pública de Rick and Morty ([https://rickandmortyapi.com](https://rickandmortyapi.com)) y mostrar información de personajes, episodios y ubicaciones en flutter.
 
-## Getting Started
+## TECNOLOGIAS
 
-This project is a starting point for a Flutter application.
+![https://raw.githubusercontent.com/rrousselGit/riverpod/refs/heads/master/resources/icon/Facebook%20Cover%20A.png](https://raw.githubusercontent.com/rrousselGit/riverpod/refs/heads/master/resources/icon/Facebook%20Cover%20A.png)
 
-A few resources to get you started if this is your first Flutter project:
+# VISUALIZACION
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## VISTA PRINCIPAL
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![Vista de personaje](readmeimg/home.jpeg)
+
+## VISTA BUSQUEDA
+
+![Vista de personaje](readmeimg/search.jpeg)
+
+## VISTA PERSONAJE CON LOS CAPITULOS DONDE APARECE
+
+![Vista de personaje](readmeimg/character.jpeg)
+
+### Instalación
+
+```bash
+git clone https://github.com/tuusuario/rickmorty.git
+cd rickmorty
+flutter pub get
+flutter run
+```
+
+## Dependencias
+
+#### cupertino_icons: ^1.0.8
+
+#### http: ^1.3.0
+
+#### provider: ^6.1.4
+
+#### go_router: ^15.1.1
+
+## Requisitos previos
+
+# Getting Started
+
+Sigue estos pasos para iniciar el proyecto:
+
+# Prerrequisitos
+
+--> Dart / Flutter
+
+# Instalación
+
+1. Clona el repositorio:
+
+```bash
+git clone https://github.com/tuusuario/rickmorty.git
+cd rickmorty
+```
